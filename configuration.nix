@@ -6,9 +6,8 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
       ./hardware-configuration.nix
-
       <home-manager/nixos>
     ];
 
@@ -88,10 +87,6 @@
     isNormalUser = true;
     description = "dinhero21";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      kdePackages.kate
-      # thunderbird
-    ];
   };
 
   home-manager.users.dinhero21 = { pkgs, ... }: {
@@ -117,35 +112,29 @@
     home.stateVersion = "25.05"; # Please read the comment before changing.
   };
 
-  # Install firefox.
-  programs.firefox.enable = true;
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    # wget
-  ];
+  # Programs
+
+  programs.firefox.enable = true;
 
   programs.vim = {
     enable = true;
     defaultEditor = true;
   };
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  programs.git = {
+    enable = true;
+    userName  = "dinhero21";
+    userEmail = "dinhero21@dinhero21.dev";
+  };
 
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages = with pkgs; [
+    # wget
+  ];
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
