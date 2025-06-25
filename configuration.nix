@@ -124,11 +124,7 @@
     defaultEditor = true;
   };
 
-  programs.git = {
-    enable = true;
-    userName  = "dinhero21";
-    userEmail = "dinhero21@dinhero21.dev";
-  };
+  programs.git.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
