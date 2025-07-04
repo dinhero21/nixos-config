@@ -100,6 +100,12 @@
 
         workspace.lookAndFeel = "org.kde.breezedark.desktop";
       };
+
+      git = {
+        enable = true;
+        userName = "dinhero21";
+        userEmail = "dinhero21@dinhero21.dev";
+      };
     };
 
     # This value determines the Home Manager release that your configuration is 
@@ -125,6 +131,8 @@
   };
 
   programs.git.enable = true;
+
+  programs.steam.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
