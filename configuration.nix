@@ -8,7 +8,7 @@
   imports =
     [
       ./hardware-configuration.nix
-      <home-manager/nixos>
+      # <home-manager/nixos>
     ];
 
   # Bootloader.
@@ -89,34 +89,34 @@
     extraGroups = [ "networkmanager" "wheel" ];
   };
 
-  home-manager.users.dinhero21 = { pkgs, ... }: {
-    imports = [
-      <plasma-manager/modules>
-    ];
+  # home-manager.users.dinhero21 = { pkgs, ... }: {
+  #   imports = [
+  #     # <plasma-manager/modules>
+  #   ];
 
-    programs = {
-      plasma = {
-        enable = true;
+  #   programs = {
+  #     # plasma = {
+  #     #   enable = true;
+  #     # 
+  #     #   workspace.lookAndFeel = "org.kde.breezedark.desktop";
+  #     # };
 
-        workspace.lookAndFeel = "org.kde.breezedark.desktop";
-      };
+  #     git = {
+  #       enable = true;
+  #       userName = "dinhero21";
+  #       userEmail = "dinhero21@dinhero21.dev";
+  #     };
+  #   };
 
-      git = {
-        enable = true;
-        userName = "dinhero21";
-        userEmail = "dinhero21@dinhero21.dev";
-      };
-    };
-
-    # This value determines the Home Manager release that your configuration is 
-    # compatible with. This helps avoid breakage when a new Home Manager release 
-    # introduces backwards incompatible changes. 
-    #
-    # You should not change this value, even if you update Home Manager. If you do 
-    # want to update the value, then make sure to first check the Home Manager 
-    # release notes.
-    home.stateVersion = "25.05"; # Please read the comment before changing.
-  };
+  #   # This value determines the Home Manager release that your configuration is 
+  #   # compatible with. This helps avoid breakage when a new Home Manager release 
+  #   # introduces backwards incompatible changes. 
+  #   #
+  #   # You should not change this value, even if you update Home Manager. If you do 
+  #   # want to update the value, then make sure to first check the Home Manager 
+  #   # release notes.
+  #   home.stateVersion = "25.05"; # Please read the comment before changing.
+  # };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -132,12 +132,12 @@
 
   programs.git.enable = true;
 
-  programs.steam.enable = true;
+  # programs.steam.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    prismlauncher vesktop
+    # prismlauncher vesktop
   ];
 
   # Open ports in the firewall.
@@ -145,6 +145,8 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
