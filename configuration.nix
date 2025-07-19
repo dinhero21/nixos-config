@@ -89,17 +89,21 @@
     extraGroups = [ "networkmanager" "wheel" ];
   };
 
+  home-manager.useUserPackages = true; # not sure why, alledgely necessary for nixos-rebuild build-vm
+  home-manager.useGlobalPkgs = true; # faster evaluation, better consistency
+
   home-manager.users.dinhero21 = { pkgs, ... }: {
+    # would this be better placed in home-manager.sharedModules?
     imports = [
-      # <plasma-manager/modules>
+      flake-inputs.plasma-manager.homeManagerModules.plasma-manager
     ];
 
     programs = {
-      # plasma = {
-      #   enable = true;
-      # 
-      #   workspace.lookAndFeel = "org.kde.breezedark.desktop";
-      # };
+      plasma = {
+        enable = true;
+
+        workspace.lookAndFeel = "org.kde.breezedark.desktop";
+      };
 
       git = {
         enable = true;
