@@ -17,11 +17,6 @@
   };
 
   outputs = { self, nixpkgs, ... } @ inputs: {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      specialArgs = { flake-inputs = inputs; };
-      modules = [
-        ./configuration.nix
-      ];
-    };
+    nixosConfigurations."3" = import ./hosts/3/system.nix { flake-inputs = inputs; };
   };
 }
