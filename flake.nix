@@ -18,5 +18,5 @@
 
   outputs = { self, nixpkgs, ... } @ inputs: {
     nixosConfigurations."3" = import ./hosts/3/system.nix { flake-inputs = inputs; };
- };
+  };
 }

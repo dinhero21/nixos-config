@@ -3,10 +3,13 @@
 flake-inputs.nixpkgs.lib.nixosSystem {
   specialArgs = { inherit flake-inputs; };
   modules = [
-    ./hardware.nix
-    ../../shared/common.nix
-    ../../shared/desktop/environment.nix
-    ({ config, pkgs, ... }: {
+   ({ config, lib, pkgs, ... }: {
+      imports = [
+       ./hardware.nix
+       ../../shared/common.nix
+       ../../shared/desktop/environment.nix
+      ];
+
       networking.hostName = "3";
  
       # Programs
@@ -18,7 +21,7 @@ flake-inputs.nixpkgs.lib.nixosSystem {
       environment.systemPackages = with pkgs; [
         # prismlauncher vesktop
       ];
-    })
+   })
   ];
 }
 
