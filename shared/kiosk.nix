@@ -19,7 +19,7 @@ let cfg = config.kiosk; in {
   };
 
   config = lib.mkIf cfg.enable {
-    system.nixos.tags = [ "minecraft-kiosk" ];
+    system.nixos.tags = [ "kiosk" ];
   
     fonts.enableDefaultPackages = true;
   

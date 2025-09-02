@@ -12,6 +12,8 @@ flake-inputs.nixpkgs.lib.nixosSystem {
 
      networking.hostName = "portable-ssd";
 
+     system.nixos.tags = [ "minecraft" ];
+
      environment.systemPackages = with pkgs; [
        prismlauncher
      ];
