@@ -14,13 +14,9 @@ flake-inputs.nixpkgs.lib.nixosSystem {
 
      system.nixos.tags = [ "minecraft" ];
 
-     environment.systemPackages = with pkgs; [
-       prismlauncher
-     ];
-
      kiosk = {
        enable = true;
-       program = "prismlauncher --launch 'Fabulously Optimized'";
+       program = "${lib.getExe pkgs.prismlauncher} --launch 'Fabulously Optimized'";
      };
    })
   ];
