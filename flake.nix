@@ -20,5 +20,6 @@
     nixosConfigurations."3" = import ./hosts/3/system.nix { flake-inputs = inputs; };
     nixosConfigurations."portable-ssd" = import ./hosts/portable-ssd/system.nix { flake-inputs = inputs; };
     nixosConfigurations."minecraft-kiosk" = import ./hosts/portable-ssd/minecraft-kiosk.nix { flake-inputs = inputs; };
+    nixosConfigurations."steam-kiosk" = import ./hosts/portable-ssd/steam-kiosk.nix { flake-inputs = inputs; };
   };
 }
