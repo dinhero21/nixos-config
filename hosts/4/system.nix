@@ -10,6 +10,8 @@ flake-inputs.nixpkgs.lib.nixosSystem {
        ../../shared/server
       ];
 
+      # TODO: high performance on AC; energy-saving on battery
+
       # TODO: extract into shared/computer-id.nix
 
       networking.hostName = "4";
@@ -64,6 +66,7 @@ flake-inputs.nixpkgs.lib.nixosSystem {
           WorkingDirectory = "/var/lib/minecraft-server/al";
           # revert undocumented behavior: DynamicUser= implies StateDirectory= mounted noexec
           ExecPaths = "/var/lib/minecraft-server/al";
+          ExecStartPre = pkgs.writeShellScript "minecraft-server-al-exec-start-pre" "${pkgs.temurin-jre-bin-25}/bin/java -jar packwiz-installer-bootstrap.jar --no-gui --side server file://$(pwd)/pack/pack.toml";
           ExecStart = "${pkgs.temurin-jre-bin-25}/bin/java -Xms3G -Xmx3G -jar fabric-server-mc.26.2-loader.0.19.5-launcher.1.1.2.jar nogui";
           StandardInput = "socket";
           StandardOutput = "journal";
