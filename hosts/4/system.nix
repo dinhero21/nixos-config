@@ -34,6 +34,69 @@ flake-inputs.nixpkgs.lib.nixosSystem {
 
       # disable other ipv6 addresses
       boot.kernel.sysctl."net.ipv6.conf.enp43s0.autoconf" = 0;
+
+      # TODO: extract into shared/minecraft-server.nix
+
+      systemd.sockets.minecraft-server-al-stdin = {
+        unitConfig = {
+          BindsTo = ["minecraft-server-al.service"];
+        };
+        socketConfig = {
+          Service = "minecraft-server-al.service";
+          ListenFIFO = "/run/minecraft-server-al-stdin";
+          RemoveOnStop = true;
+        };
+      };
+
+      systemd.services.minecraft-server-al = {
+        wantedBy = ["multi-user.target"];
+        after = ["network-online.target"];
+        environment = {
+          LD_LIBRARY_PATH = lib.makeLibraryPath [ pkgs.udev ];
+        };
+        unitConfig = {
+          BindsTo = ["minecraft-server-al-stdin.socket"];
+        };
+        serviceConfig = {
+          Type = "exec";
+          DynamicUser = true;
+          StateDirectory = "minecraft-server/al";
+          WorkingDirectory = "/var/lib/minecraft-server/al";
+          # revert undocumented behavior: DynamicUser= implies StateDirectory= mounted noexec
+          ExecPaths = "/var/lib/minecraft-server/al";
+          ExecStart = "${pkgs.temurin-jre-bin-25}/bin/java -Xms3G -Xmx3G -jar fabric-server-mc.26.2-loader.0.19.5-launcher.1.1.2.jar nogui";
+          StandardInput = "socket";
+          StandardOutput = "journal";
+          Restart = "always";
+        };
+      };
+
+      environment.systemPackages = [
+        (pkgs.writeShellApplication {
+          name = "mcattach";
+          text = ''
+            id="$*";
+            service="minecraft-server-$id.service";
+            stdin_pipe="/run/minecraft-server-$id-stdin";
+
+            if ! ${pkgs.systemd}/bin/systemctl cat "$service" &>/dev/null; then
+              echo "$service does not exist!";
+              exit 1;
+            fi
+
+            if ! ${pkgs.systemd}/bin/systemctl -q is-active "$service"; then
+              echo "$service down";
+              exit 1;
+            fi
+
+            trap 'pkill -P $$' EXIT;
+            ${pkgs.systemd}/bin/journalctl -f -o cat -I -u "$service" &
+            dd bs=1 conv=nocreat of="$stdin_pipe" status=none < /dev/stdin &
+            wait -n;
+          '';
+          bashOptions = ["nounset"];
+        })
+      ];
    })
   ];
 }
